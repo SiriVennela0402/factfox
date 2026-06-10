@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FactFox</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>FactFox</h1>
+    <p class="subtitle">AI safety checker</p>
+
+    <textarea id="promptInput" placeholder="Paste a prompt or AI answer here..."></textarea>
+
+    <button id="analyzeBtn">Analyze</button>
+
+    <div id="resultBox" class="result hidden">
+      <h2 id="resultLabel"></h2>
+      <p id="resultReason"></p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
