@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>FactFox</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <div class="container">
-    <h1>FactFox</h1>
-    <p class="subtitle">AI safety checker</p>
+  <head>
+    <title>FactFox</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
 
-    <textarea id="promptInput" placeholder="Paste a prompt or AI answer here..."></textarea>
+  <body>
+    <div class="container">
+      <h1>FactFox</h1>
+      <p class="subtitle">Prompt risk and AI response safety scanner</p>
 
-    <button id="analyzeBtn">Analyze</button>
+      <textarea
+        id="promptInput"
+        placeholder="Paste a prompt, AI answer, or selected text to scan..."
+      ></textarea>
 
-    <div id="resultBox" class="result hidden">
-      <h2 id="resultLabel"></h2>
-      <p id="resultReason"></p>
+      <p class="helper">
+        FactFox checks for prompt injection, credential theft, destructive actions, and malware intent.
+      </p>
+
+      <button id="analyzeBtn">Analyze</button>
+      <button id="clearBtn" class="secondary">Clear</button>
+
+      <div id="resultBox" class="result hidden">
+        <div class="scoreRow">
+          <h2 id="resultLabel"></h2>
+          <span id="scoreBadge"></span>
+        </div>
+
+        <div class="meter">
+          <div id="meterFill"></div>
+        </div>
+
+        <p id="resultCategory"></p>
+        <p id="resultReason"></p>
+      </div>
     </div>
-  </div>
 
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
