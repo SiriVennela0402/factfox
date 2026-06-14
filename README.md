@@ -16,6 +16,7 @@ FactFox is an AI safety project that detects risky or malicious prompts and help
   - Unsafe Automation
 - Clear explanation for each detected risk
 - Streamlit prototype included for early testing
+- Right-click selected text scanning on webpages
 
 ## Browser Extension Setup
 
@@ -24,6 +25,7 @@ FactFox is an AI safety project that detects risky or malicious prompts and help
 3. Click `Load unpacked`.
 4. Select the `extension` folder from this project.
 5. Click the FactFox icon and paste a prompt or AI-generated answer to scan.
+6. Highlight text on a webpage, right-click, and choose `Analyze with FactFox`.
 
 ## Tech Stack
 
