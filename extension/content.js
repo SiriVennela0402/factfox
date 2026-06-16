@@ -59,8 +59,6 @@ function createFactFoxBadge() {
   badge.textContent = "FactFox: Ready";
 
   badge.style.position = "fixed";
-  badge.style.bottom = "20px";
-  badge.style.right = "20px";
   badge.style.zIndex = "999999";
   badge.style.padding = "10px 14px";
   badge.style.borderRadius = "8px";
@@ -70,9 +68,49 @@ function createFactFoxBadge() {
   badge.style.fontSize = "13px";
   badge.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.25)";
   badge.style.display = "none";
+  badge.style.maxWidth = "360px";
 
   document.body.appendChild(badge);
   return badge;
+}
+
+function positionBadgeNearTarget(badge, target) {
+  const targetRect = target.getBoundingClientRect();
+  const badgeWidth = 360;
+  const spacing = 16;
+
+  let badgeTop = targetRect.top + 48;
+  let badgeLeft = targetRect.left + 16;
+
+  if (badgeLeft + badgeWidth > window.innerWidth) {
+    badgeLeft = window.innerWidth - badgeWidth - spacing;
+  }
+
+  if (badgeLeft < spacing) {
+    badgeLeft = spacing;
+  }
+
+  if (badgeTop < spacing) {
+    badgeTop = spacing;
+  }
+
+  badge.style.top = `${badgeTop}px`;
+  badge.style.left = `${badgeLeft}px`;
+  badge.style.bottom = "auto";
+  badge.style.right = "auto";
+}
+
+function updateBadgeColor(badge, result) {
+  if (result.label === "Malicious") {
+    badge.style.background = "#e74c3c";
+    badge.style.color = "#ffffff";
+  } else if (result.label === "Suspicious") {
+    badge.style.background = "#f1c40f";
+    badge.style.color = "#101418";
+  } else {
+    badge.style.background = "#2ecc71";
+    badge.style.color = "#101418";
+  }
 }
 
 const factFoxBadge = createFactFoxBadge();
@@ -92,21 +130,13 @@ document.addEventListener("input", (event) => {
       return;
     }
 
-    factFoxBadge.style.display = "block";
-
     const result = analyzePageText(text);
 
     factFoxBadge.textContent = `FactFox: ${result.label} | ${result.category} | ${result.score}/100`;
+    factFoxBadge.style.display = "block";
 
-    if (result.label === "Malicious") {
-      factFoxBadge.style.background = "#e74c3c";
-      factFoxBadge.style.color = "#ffffff";
-    } else if (result.label === "Suspicious") {
-      factFoxBadge.style.background = "#f1c40f";
-      factFoxBadge.style.color = "#101418";
-    } else {
-      factFoxBadge.style.background = "#2ecc71";
-      factFoxBadge.style.color = "#101418";
-    }
+    updateBadgeColor(factFoxBadge, result);
+    positionBadgeNearTarget(factFoxBadge, target);
+    
   }
 });

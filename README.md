@@ -18,6 +18,7 @@ FactFox is an AI safety project that detects risky or malicious prompts and help
 - Streamlit prototype included for early testing
 - Right-click selected text scanning on webpages
 - Live textbox scanning with a floating FactFox safety badge
+- Grammarly-style floating safety badge near supported text editors
 
 ## Browser Extension Setup
 
