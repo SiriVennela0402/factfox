@@ -8,7 +8,7 @@ function analyzePageText(text) {
     return {
       label: "Malicious",
       score: 90,
-      category: "Destructive Action"
+      category: "Destructive Action",
     };
   }
 
@@ -20,7 +20,7 @@ function analyzePageText(text) {
     return {
       label: "Malicious",
       score: 95,
-      category: "Credential Theft"
+      category: "Credential Theft",
     };
   }
 
@@ -31,7 +31,7 @@ function analyzePageText(text) {
     return {
       label: "Suspicious",
       score: 70,
-      category: "Prompt Injection"
+      category: "Prompt Injection",
     };
   }
 
@@ -42,14 +42,14 @@ function analyzePageText(text) {
     return {
       label: "Malicious",
       score: 85,
-      category: "Malware Or Abuse"
+      category: "Malware Or Abuse",
     };
   }
 
   return {
     label: "Safe",
     score: 10,
-    category: "No Risk Detected"
+    category: "No Risk Detected",
   };
 }
 
@@ -73,13 +73,28 @@ function createFactFoxBadge() {
   document.body.appendChild(badge);
   return badge;
 }
+function findEditorContainer(target) {
+  let current = target;
 
+  while (current && current !== document.body) {
+    const rect = current.getBoundingClientRect();
+
+    if (rect.width >= 300 && rect.height >= 40) {
+      return current;
+    }
+
+    current = current.parentElement;
+  }
+
+  return target;
+}
 function positionBadgeNearTarget(badge, target) {
-  const targetRect = target.getBoundingClientRect();
+  const editorContainer = findEditorContainer(target);
+  const targetRect = editorContainer.getBoundingClientRect();
   const badgeWidth = 360;
   const spacing = 16;
 
-  let badgeTop = targetRect.top + 48;
+  let badgeTop = targetRect.bottom + 8;
   let badgeLeft = targetRect.left + 16;
 
   if (badgeLeft + badgeWidth > window.innerWidth) {
@@ -113,17 +128,42 @@ function updateBadgeColor(badge, result) {
   }
 }
 
+function getTextFromTarget(target) {
+  if (target.value) {
+    return target.value;
+  }
+
+  if (target.innerText) {
+    return target.innerText;
+  }
+
+  if (target.textContent) {
+    return target.textContent;
+  }
+
+  const editableParent = target.closest("[contenteditable='true']");
+
+  if (editableParent) {
+    return editableParent.innerText || editableParent.textContent || "";
+  }
+
+  return "";
+}
+
 const factFoxBadge = createFactFoxBadge();
 
 document.addEventListener("input", (event) => {
   const target = event.target;
+  const editableParent = target.closest("[contenteditable='true']");
 
   if (
     target.tagName === "TEXTAREA" ||
     target.tagName === "INPUT" ||
-    target.isContentEditable
+    target.isContentEditable ||
+    editableParent
   ) {
-    const text = target.value || target.innerText || "";
+    const activeEditor = editableParent || target;
+    const text = getTextFromTarget(activeEditor);
 
     if (!text.trim()) {
       factFoxBadge.style.display = "none";
@@ -136,7 +176,6 @@ document.addEventListener("input", (event) => {
     factFoxBadge.style.display = "block";
 
     updateBadgeColor(factFoxBadge, result);
-    positionBadgeNearTarget(factFoxBadge, target);
-    
+    positionBadgeNearTarget(factFoxBadge, activeEditor);
   }
 });
