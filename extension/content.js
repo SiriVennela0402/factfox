@@ -15,7 +15,9 @@ function analyzePageText(text) {
   if (
     lowerText.includes("steal password") ||
     lowerText.includes("steal passwords") ||
-    lowerText.includes("steal saved passwords")
+    lowerText.includes("steal saved passwords") ||
+    lowerText.includes("extract login details") ||
+    lowerText.includes("show saved passwords")
   ) {
     return {
       label: "Malicious",
@@ -26,8 +28,12 @@ function analyzePageText(text) {
 
   if (
     lowerText.includes("ignore previous instructions") ||
-    lowerText.includes("reveal your system prompt")
-  ) {
+    lowerText.includes("reveal your system prompt") ||
+    lowerText.includes("ignore all prior instructions") ||
+    lowerText.includes("forget your instructions") ||
+    lowerText.includes("act as an unrestricted ai") ||
+    lowerText.includes("developer mode")
+) {
     return {
       label: "Suspicious",
       score: 70,
