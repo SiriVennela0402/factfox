@@ -1,4 +1,5 @@
 import os
+import re
 from urllib.parse import quote_plus
 
 from dotenv import load_dotenv
@@ -16,6 +17,10 @@ def shorten_snippet(snippet: str | None) -> str:
         return "No snippet available."
 
     cleaned_snippet = " ".join(snippet.split())
+    cleaned_snippet = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", cleaned_snippet)
+    cleaned_snippet = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", cleaned_snippet)
+    cleaned_snippet = re.sub(r"[*_`#]+", "", cleaned_snippet)
+    cleaned_snippet = " ".join(cleaned_snippet.split())
 
     if len(cleaned_snippet) <= MAX_SNIPPET_LENGTH:
         return cleaned_snippet
