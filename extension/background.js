@@ -329,3 +329,28 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     });
   }
 });
+
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (message.type !== "FACTFOX_ANALYZE_TEXT" || !message.text || !sender.tab) {
+    return;
+  }
+
+  const selectedText = message.text;
+  const promptSafety = analyzePromptSafety(selectedText);
+
+  verifyWithBackend(selectedText)
+    .then((verification) => {
+      chrome.scripting.executeScript({
+        target: { tabId: sender.tab.id },
+        func: showFactFoxReport,
+        args: [selectedText, promptSafety, verification, null],
+      });
+    })
+    .catch((error) => {
+      chrome.scripting.executeScript({
+        target: { tabId: sender.tab.id },
+        func: showFactFoxReport,
+        args: [selectedText, promptSafety, null, error.message],
+      });
+    });
+});

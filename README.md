@@ -22,6 +22,7 @@ FactFox is a browser-based AI safety assistant that detects risky prompts and he
 - Improved support for AI-style prompt editors such as Gemini
 - Source-backed selected text verification through the local FastAPI backend
 - External source retrieval using Tavily
+- Floating FactFox icon for selected text analysis without opening the context menu
 
 ## Browser Extension Setup
 
@@ -31,9 +32,10 @@ FactFox is a browser-based AI safety assistant that detects risky prompts and he
 4. Select the `extension` folder from this project.
 5. Click the FactFox icon and paste a prompt or AI-generated answer to scan.
 6. Highlight text on a webpage, right-click, and choose `Analyze with FactFox`.
-7. Type inside a webpage text box to see the live FactFox safety badge.
-8. Open an AI chat page such as Gemini and type in the prompt box to see FactFox scan the prompt live.
-9. Start the backend before using source-backed selected text verification.
+7. Highlight text and click the floating FactFox icon to open the same report.
+8. Type inside a webpage text box to see the live FactFox safety badge.
+9. Open an AI chat page such as Gemini and type in the prompt box to see FactFox scan the prompt live.
+10. Start the backend before using source-backed selected text verification.
 
 ## Backend Verification API
 
@@ -71,8 +73,16 @@ Browser Extension
 2. Load the extension in Chrome.
 3. Type a risky prompt in Gemini to see the live safety badge.
 4. Highlight an AI answer or factual claim.
-5. Right-click and choose `Analyze with FactFox`.
+5. Click the floating FactFox icon or right-click and choose `Analyze with FactFox`.
 6. Review prompt safety, claim markers, and external source evidence.
+
+## Reveal Materials
+
+Final demo notes, resume bullets, and a LinkedIn reveal draft are available in:
+
+```text
+docs/REVEAL_PACKAGE.md
+```
 
 ## Tech Stack
 
