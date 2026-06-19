@@ -42,6 +42,14 @@ python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 
 The backend currently extracts factual claims and returns source-check links for Google Search, Google Scholar, and Wikipedia Search. External search API integration is planned next.
 
+For external source retrieval, create a local `.env` file and add:
+
+```env
+TAVILY_API_KEY=your_tavily_api_key_here
+```
+
+The `.env` file is ignored by Git and should not be pushed to GitHub.
+
 ## Tech Stack
 
 - Python
