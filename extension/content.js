@@ -157,6 +157,18 @@ function getTextFromTarget(target) {
 }
 
 const factFoxBadge = createFactFoxBadge();
+let factFoxBadgeTimeout = null;
+
+function hideFactFoxBadge() {
+  factFoxBadge.style.display = "none";
+}
+
+function scheduleFactFoxBadgeHide() {
+  clearTimeout(factFoxBadgeTimeout);
+  factFoxBadgeTimeout = setTimeout(() => {
+    hideFactFoxBadge();
+  }, 2000);
+}
 
 function createFactFoxSelectionButton() {
   const button = document.createElement("button");
@@ -443,5 +455,25 @@ document.addEventListener("input", (event) => {
 
     updateBadgeColor(factFoxBadge, result);
     positionBadgeNearTarget(factFoxBadge, activeEditor);
+    scheduleFactFoxBadgeHide();
+  }
+});
+
+document.addEventListener("focusout", (event) => {
+  const target = event.target;
+
+  if (
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "INPUT" ||
+    target.isContentEditable ||
+    target.closest("[contenteditable='true']")
+  ) {
+    hideFactFoxBadge();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    hideFactFoxBadge();
   }
 });
