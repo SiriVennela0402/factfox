@@ -32,12 +32,24 @@ FactFox is an AI safety project that detects risky or malicious prompts and help
 7. Type inside a webpage text box to see the live FactFox safety badge.
 8. Open an AI chat page such as Gemini and type in the prompt box to see FactFox scan the prompt live.
 
+## Backend Verification API
+
+Run the local verification backend with:
+
+```powershell
+python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
+```
+
+The backend currently extracts factual claims and returns source-check links for Google Search, Google Scholar, and Wikipedia Search. External search API integration is planned next.
+
 ## Tech Stack
 
 - Python
 - Streamlit
 - Pandas
 - Scikit-learn
+- FastAPI
+- Uvicorn
 
 ## Project Goal
 
