@@ -9,7 +9,7 @@ from .claim_extractor import extract_claims
 
 
 load_dotenv()
-MAX_SNIPPET_LENGTH = 320
+MAX_SNIPPET_LENGTH = 220
 
 
 def shorten_snippet(snippet: str | None) -> str:

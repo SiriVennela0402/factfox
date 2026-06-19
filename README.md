@@ -1,6 +1,6 @@
 # FactFox
 
-FactFox is an AI safety project that detects risky or malicious prompts and helps verify whether AI-generated answers are reliable.
+FactFox is a browser-based AI safety assistant that detects risky prompts and helps verify AI-generated answers with external source evidence.
 
 ## Features
 - Chrome browser extension popup for scanning prompts and AI-generated text
@@ -21,6 +21,7 @@ FactFox is an AI safety project that detects risky or malicious prompts and help
 - Grammarly-style floating safety badge near supported text editors
 - Improved support for AI-style prompt editors such as Gemini
 - Source-backed selected text verification through the local FastAPI backend
+- External source retrieval using Tavily
 
 ## Browser Extension Setup
 
@@ -42,7 +43,7 @@ Run the local verification backend with:
 python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
-The backend extracts factual claims and uses Tavily to retrieve external source evidence.
+The backend extracts factual claims and uses Tavily to retrieve external source evidence. It returns detected claim markers, source titles, URLs, snippets, and evidence status.
 
 For external source retrieval, create a local `.env` file and add:
 
@@ -52,6 +53,27 @@ TAVILY_API_KEY=your_tavily_api_key_here
 
 The `.env` file is ignored by Git and should not be pushed to GitHub.
 
+## How It Works
+
+```text
+Browser Extension
+  -> live prompt safety scanning
+  -> right-click selected text analysis
+  -> local FastAPI backend
+  -> claim extraction
+  -> Tavily external source search
+  -> FactFox report panel with source evidence
+```
+
+## Demo Workflow
+
+1. Start the backend.
+2. Load the extension in Chrome.
+3. Type a risky prompt in Gemini to see the live safety badge.
+4. Highlight an AI answer or factual claim.
+5. Right-click and choose `Analyze with FactFox`.
+6. Review prompt safety, claim markers, and external source evidence.
+
 ## Tech Stack
 
 - Python
@@ -60,7 +82,23 @@ The `.env` file is ignored by Git and should not be pushed to GitHub.
 - Scikit-learn
 - FastAPI
 - Uvicorn
+- Tavily
+- JavaScript
+- Chrome Extensions
 
 ## Project Goal
 
 This project is designed as an AI/Data Science portfolio project focused on AI safety, prompt security, and trustworthy AI systems.
+
+## Current Limitations
+
+- FactFox provides source evidence, not a perfect final truth judgment.
+- The backend must be running locally for source-backed verification.
+- Live prompt scanning support can vary across websites depending on how their editors are built.
+
+## Future Improvements
+
+- Add automatic claim-level supported/unsupported classification.
+- Add more trusted-source filters.
+- Add a persistent report history.
+- Package the extension for Chrome Web Store submission.

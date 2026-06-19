@@ -114,7 +114,7 @@ function showFactFoxReport(selectedText, promptSafety, verification, backendErro
   panel.style.position = "fixed";
   panel.style.top = "32px";
   panel.style.right = "32px";
-  panel.style.width = "420px";
+  panel.style.width = "520px";
   panel.style.maxWidth = "calc(100vw - 32px)";
   panel.style.maxHeight = "calc(100vh - 64px)";
   panel.style.overflow = "auto";
@@ -229,29 +229,67 @@ function showFactFoxReport(selectedText, promptSafety, verification, backendErro
         color: "#ffffff",
         fontSize: "13px",
       });
-      addText(claimCard, `Status: ${claimItem.status}`);
-      addText(claimCard, `Types: ${(claimItem.types || []).join(", ")}`);
+
+      const statusBadge = document.createElement("div");
+      statusBadge.textContent = claimItem.status;
+      statusBadge.style.display = "inline-block";
+      statusBadge.style.margin = "2px 0 8px";
+      statusBadge.style.padding = "5px 8px";
+      statusBadge.style.borderRadius = "999px";
+      statusBadge.style.background =
+        claimItem.status === "Source Evidence Found" ? "#2ecc71" : "#f1c40f";
+      statusBadge.style.color = "#101418";
+      statusBadge.style.fontSize = "12px";
+      statusBadge.style.fontWeight = "700";
+      claimCard.appendChild(statusBadge);
+
+      addText(claimCard, `Claim markers: ${(claimItem.types || []).join(", ")}`);
       addText(claimCard, claimItem.confidence || "");
 
       for (const source of (claimItem.sources || []).slice(0, 3)) {
+        const sourceCard = document.createElement("div");
+        sourceCard.style.margin = "10px 0 0";
+        sourceCard.style.padding = "10px";
+        sourceCard.style.borderRadius = "7px";
+        sourceCard.style.background = "#101820";
+
         const link = document.createElement("a");
         link.href = source.url;
         link.target = "_blank";
         link.rel = "noreferrer";
         link.textContent = source.name || source.url;
         link.style.display = "block";
-        link.style.margin = "10px 0 4px";
+        link.style.margin = "0 0 4px";
         link.style.color = "#8fbbe8";
         link.style.fontSize = "13px";
         link.style.textDecoration = "none";
-        claimCard.appendChild(link);
+        sourceCard.appendChild(link);
+
+        if (source.provider || source.score) {
+          const sourceMeta = [];
+
+          if (source.provider) {
+            sourceMeta.push(source.provider);
+          }
+
+          if (typeof source.score === "number") {
+            sourceMeta.push(`score ${source.score.toFixed(2)}`);
+          }
+
+          addText(sourceCard, sourceMeta.join(" | "), {
+            color: "#8a9aaa",
+            fontSize: "11px",
+          });
+        }
 
         if (source.snippet) {
-          addText(claimCard, source.snippet, {
+          addText(sourceCard, source.snippet, {
             color: "#b8c7d9",
             fontSize: "12px",
           });
         }
+
+        claimCard.appendChild(sourceCard);
       }
 
       verificationSection.appendChild(claimCard);
