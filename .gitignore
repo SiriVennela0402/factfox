@@ -6,3 +6,4 @@ venv/
 models/*.pkl
 .DS_Store
 .ipynb_checkpoints/
+docs/FactFox_Complete_Project_Overview.pdf
